@@ -4,3 +4,7 @@ gen
 *.iml
 *.DS_Store
 __pycache__
+mapping.ini
+*.txt
+*.xlsx
+*.xls
