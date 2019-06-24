@@ -80,7 +80,7 @@ def parseServiceHourByPath(path, outputFile):
     fileList = []
     if os.path.isdir(path):
         # 过滤txt文件
-        fileList = [p for p in os.listdir(path) if Utils.isTxtFile(p)]
+        fileList = [os.path.join(path, p) for p in os.listdir(path) if Utils.isTxtFile(os.path.join(path, p))]
     elif Utils.isTxtFile(path):
         fileList.append(path)
 
