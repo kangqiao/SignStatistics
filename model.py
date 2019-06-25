@@ -20,6 +20,7 @@ SIGN_SERVICE = u'奉粥'
 
 STATISTICS_NAME = u'姓名'
 STATISTICS_TOTAL_HOUR = u'总工时'
+STATISTICS_TOTAL_DAYS = u'总天数'
 
 '''
 熬粥2 日负责2 文宣2 后勤0.5 奉粥1 环保1
