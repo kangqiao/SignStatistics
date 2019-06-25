@@ -27,7 +27,7 @@ class SignInfoSheet:
 
 
 class StatisticsSheet:
-    SHEET_DEFAULT_TITLE = [STATISTICS_NAME, STATISTICS_TOTAL_HOUR, STATISTICS_TOTAL_DAYS]
+    SHEET_DEFAULT_TITLE = [STATISTICS_NAME, STATISTICS_TOTAL_HOUR, STATISTICS_TOTAL_DAYS, STATISTICS_AVERAGE_DAYS]
 
     def __init__(self, wb):
         self.wb = wb
@@ -81,8 +81,11 @@ class StatisticsSheet:
             cell.value = user.name
             cell = self.sheet.cell(row=row, column=2)
             cell.value = totalHour
+            totalDays = len(self.nameDateHour[user])
             cell = self.sheet.cell(row=row, column=3)
-            cell.value = len(self.nameDateHour[user])
+            cell.value = totalDays
+            cell = self.sheet.cell(row=row, column=4)
+            cell.value = totalHour / totalDays
 
             for column, date in enumerate(_dateList, len(StatisticsSheet.SHEET_DEFAULT_TITLE) + 1):
                 if date in self.nameDateHour[user]:
