@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import os
 import sys
 
@@ -100,8 +101,8 @@ CMD_PARAM_OUTPUT = "output"
 
 if __name__ == '__main__':
     paramList = sys.argv[1:]
-    outputFile = "签到统计表"
-    path = "."
+    outputFile = "2019年07月份第五周签到统计表"
+    path = "2019_07_w5"
     for param in paramList:
         data = Utils.split(param)
         if data and data[0] == CMD_PARAM_PATH:

@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from utils import *
 
 SIGN_TITLE = u'标题'
@@ -27,9 +28,9 @@ STATISTICS_AVERAGE_DAYS = u'日均'
 熬粥2 日负责2 文宣2 后勤0.5 奉粥1 环保1
 '''
 Hour = {
-    SIGN_COOK_GRUEL: 2,
+    SIGN_COOK_GRUEL: 3,
     SIGN_MANAGER: 2,
-    SIGN_PUBLICITY: 2,
+    SIGN_PUBLICITY: 3,
     SIGN_SUPPORTER: 0.5,
     SIGN_SERVICE: 1,
     SIGN_PROTECT_ENV: 1
@@ -141,7 +142,7 @@ class Volunteer:
             return ""
 
         if totalHour >= 4:
-            return self._desc("4:00~8:00", "4小时", "熬粥奉粥")
+            return self._desc(" ", str(totalHour)+"小时", "熬粥奉粥")
         elif totalHour >= 3.5:
             return self._desc("4:30~8:00", "3.5小时")
         elif totalHour >= 3:
@@ -164,12 +165,14 @@ class Volunteer:
         # 记录熬粥时常
         if SIGN_COOK_GRUEL in self.hourFlag:
             count += Hour[SIGN_COOK_GRUEL]
+        elif SIGN_PUBLICITY in self.hourFlag:
+            count += Hour[SIGN_PUBLICITY]
 
         # 同时间内优先顺序: 负责人 -> 文宣 -> 环保 -> 奉粥
         if SIGN_MANAGER in self.hourFlag:
             count += Hour[SIGN_MANAGER]
-        elif SIGN_PUBLICITY in self.hourFlag:
-            count += Hour[SIGN_PUBLICITY]
+        # elif SIGN_PUBLICITY in self.hourFlag:
+        #     count += Hour[SIGN_PUBLICITY]
         elif SIGN_SUPPORTER in self.hourFlag and (SIGN_SERVICE in self.hourFlag or SIGN_PROTECT_ENV in self.hourFlag):
             count += Hour[SIGN_SUPPORTER] + Hour[SIGN_SERVICE]
         elif SIGN_PROTECT_ENV in self.hourFlag:

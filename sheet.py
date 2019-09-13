@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from model import *
 from utils import *
 

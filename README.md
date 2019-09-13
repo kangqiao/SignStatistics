@@ -37,9 +37,9 @@
 ```python
 # 熬粥2 日负责2 文宣2 后勤0.5 奉粥1 环保1
 Hour = {
-    SIGN_COOK_GRUEL: 2,
+    SIGN_COOK_GRUEL: 3,
     SIGN_MANAGER: 2,
-    SIGN_PUBLICITY: 2,
+    SIGN_PUBLICITY: 3,
     SIGN_SUPPORTER: 0.5,
     SIGN_SERVICE: 1,
     SIGN_PROTECT_ENV: 1
