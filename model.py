@@ -25,7 +25,7 @@ STATISTICS_TOTAL_DAYS = u'总天数'
 STATISTICS_AVERAGE_DAYS = u'日均'
 
 '''
-熬粥2 日负责2 文宣2 后勤0.5 奉粥1 环保1
+熬粥3 日负责2 文宣3 后勤0.5 奉粥1 环保1 结行0.5
 '''
 Hour = {
     SIGN_COOK_GRUEL: 3,
@@ -33,7 +33,8 @@ Hour = {
     SIGN_PUBLICITY: 3,
     SIGN_SUPPORTER: 0.5,
     SIGN_SERVICE: 1,
-    SIGN_PROTECT_ENV: 1
+    SIGN_PROTECT_ENV: 1,
+    SIGN_FINISHED_MEET: 0.5
 }
 
 
@@ -85,6 +86,9 @@ class SignInfoDaily:
                 self.recordHour(peopleList, SIGN_PUBLICITY)
                 self.publicity = info
             elif flag == SIGN_FINISHED_MEET:
+                # 结行记录工时
+                peopleList = Utils.splitName(info)
+                self.recordHour(peopleList, SIGN_FINISHED_MEET)
                 self.finishedMeet = info
             elif flag == SIGN_SUPPORTER:
                 # 后勤记录工时
@@ -180,8 +184,10 @@ class Volunteer:
         elif SIGN_SERVICE in self.hourFlag:
             count += Hour[SIGN_SERVICE]
 
+        # 结行单独增加0.5工时
+        if SIGN_FINISHED_MEET in self.hourFlag:
+            count += Hour[SIGN_FINISHED_MEET]
         return count
-
 
 class User:
 

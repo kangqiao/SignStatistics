@@ -16,11 +16,12 @@ def loadMappingConifg(filePath):
     with open(filePath, 'r', encoding='utf-8') as file:
         mapping_data = {}
         for line in file:
+
+            line = line.encode('utf-8').decode('utf-8-sig').strip()
+
             line = line.strip()
             if not line:
                 continue
-
-            line = line.encode('utf-8').decode('utf-8-sig').strip()
 
             if line.startswith('#'):
                 continue
@@ -39,22 +40,22 @@ def parseServiceHourByFile(filePath):
         daily = SignInfoDaily()
         for line in file:
 
-            # 判断是否空行
-            line = line.strip()
-            if not line:
-                continue
-
             # python读写文件出现\ufeff
             # question: https://blog.csdn.net/boystray/article/details/80714347
             # solution: https://blog.csdn.net/xiazhipeng1000/article/details/79720391
             line = line.encode('utf-8').decode('utf-8-sig').strip()
+
+            # 判断是否空行
+            line = line.strip()
+            if not line or line == '':
+                continue
 
             # 分隔主要数据
             primary_data = Utils.splitLine(line)
 
             # 检查数据
             if not primary_data or len(primary_data) != 2:
-                Utils.log("解析行数据失败>>>" + line)
+                Utils.log("解析行数据失败>>> filePath" + filePath + ', ' + primary_data)
                 continue
 
             if primary_data[0] == SIGN_TITLE:
@@ -101,8 +102,8 @@ CMD_PARAM_OUTPUT = "output"
 
 if __name__ == '__main__':
     paramList = sys.argv[1:]
-    outputFile = "2019年07月份第五周签到统计表"
-    path = "2019_07_w5"
+    outputFile = "签到统计表"
+    path = ""
     for param in paramList:
         data = Utils.split(param)
         if data and data[0] == CMD_PARAM_PATH:
@@ -113,7 +114,7 @@ if __name__ == '__main__':
     print("path:" + path)
     print("outputFile:" + outputFile)
 
-    # path = ["/Users/zhaopan/workspace/python/service_hour/"]
+    # path = "/Users/zhaopan/workspace/python/service_hour/2019/5月签到表.txt"
     if path:
         parseServiceHourByPath(path, outputFile)
     else:
