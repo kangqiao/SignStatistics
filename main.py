@@ -11,6 +11,7 @@ wb = Workbook()
 signInfoSheet = SignInfoSheet(wb)
 statisticsSheet = StatisticsSheet(wb)
 volunteerBJSheet = VolunteerBJSheet(wb)
+topSheet = TopSheet(wb)
 
 def loadMappingConifg(filePath):
     with open(filePath, 'r', encoding='utf-8') as file:
@@ -69,6 +70,7 @@ def parseServiceHourByFile(filePath):
                 signInfoSheet.appendDailyInfo(daily)
                 statisticsSheet.appendDailyStatistics(daily)
                 volunteerBJSheet.appendVolunteerBJRecord(daily)
+                topSheet.appendTopInfo(daily)
 
 
 def writeSheet():
@@ -76,6 +78,7 @@ def writeSheet():
     statisticsSheet.writeSheet()
     volunteerBJSheet.syncNameTotalHourData(statisticsSheet.nameTotalHour)
     volunteerBJSheet.writeSheet()
+    topSheet.writeSheet()
 
 
 def parseServiceHourByPath(path, outputFile):

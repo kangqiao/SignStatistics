@@ -131,3 +131,75 @@ class VolunteerBJSheet:
             recordContent = user.name + " - 共" + str(self.nameTotalHour[user]) + "小时\n" + self.volunteerBJRecord[user]
             cell = self.sheet.cell(row=row, column=3)
             cell.value = recordContent
+
+
+class TopSheet:
+    SHEET_DEFAULT_TITLE = [STATISTICS_NAME, SIGN_SERVICE, SIGN_SIGNER, SIGN_COOK_GRUEL, SIGN_COMPERE, SIGN_PICTURE, SIGN_DIARY, SIGN_PUBLICITY, SIGN_SUPPORTER, SIGN_PROTECT_ENV]
+
+    def __init__(self, wb):
+        self.wb = wb
+        self.sheet = wb.create_sheet(title=u'Top排名', index=3)
+        self.sheet.append(TopSheet.SHEET_DEFAULT_TITLE)
+        # <name, {总天数: 1, 签名: 4, 熬粥: 5, 摄影: 5, 日志: 5, ....}>
+        self.topInfo = {}
+
+    def appendTopInfo(self, daily):
+        if daily.service:
+            self.statisticsTop(Utils.splitName(daily.service), SIGN_SERVICE)
+        if daily.signer:
+            self.statisticsTop(Utils.splitName(daily.signer), SIGN_SIGNER)
+        if daily.cookGruel:
+            self.statisticsTop(Utils.splitName(daily.cookGruel), SIGN_COOK_GRUEL)
+        if daily.compere:
+            self.statisticsTop(Utils.splitName(daily.compere), SIGN_COMPERE)
+        if daily.picture:
+            self.statisticsTop(Utils.splitName(daily.picture), SIGN_PICTURE)
+        if daily.diary:
+            self.statisticsTop(Utils.splitName(daily.diary), SIGN_DIARY)
+        if daily.publicity:
+            self.statisticsTop(Utils.splitName(daily.publicity), SIGN_PUBLICITY)
+        if daily.supporter:
+            self.statisticsTop(Utils.splitName(daily.supporter), SIGN_SUPPORTER)
+        if daily.protectEnv:
+            self.statisticsTop(Utils.splitName(daily.protectEnv), SIGN_PROTECT_ENV)
+
+
+    def statisticsTop(self, peopleList, type):
+        if peopleList and len(peopleList) > 0:
+            for people in peopleList:
+                id, name = UserManager.findNameMapping(people)
+                if not name:
+                    name = people
+
+                if name not in self.topInfo:
+                    self.topInfo[name] = {}
+                    # 依据的排序key, 所以默认赋值为0
+                    self.topInfo[name][SIGN_SERVICE] = 0
+
+                if type not in self.topInfo[name]:
+                    self.topInfo[name][type] = 1
+                else:
+                    self.topInfo[name][type] += 1
+
+    def writeSheet(self):
+        if not self.topInfo:
+            return
+
+        # 按人员总工时排序
+        _sortedTopInfo = sorted(self.topInfo.items(), key=lambda item: int(item[1][SIGN_SERVICE]), reverse=True)
+
+        row = 1
+        for name, info in _sortedTopInfo:
+            if name == u'无':
+                continue
+            row += 1
+            for i, val in enumerate(TopSheet.SHEET_DEFAULT_TITLE):
+                if val == STATISTICS_NAME:
+                    cell = self.sheet.cell(row=row, column=i+1)
+                    cell.value = name
+                    continue
+
+                if val not in info:
+                    info[val] = 0
+                cell = self.sheet.cell(row=row, column=i+1)
+                cell.value = info[val]
