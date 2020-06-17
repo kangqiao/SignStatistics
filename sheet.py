@@ -134,7 +134,7 @@ class VolunteerBJSheet:
 
 
 class TopSheet:
-    SHEET_DEFAULT_TITLE = [STATISTICS_NAME, SIGN_SERVICE, SIGN_SIGNER, SIGN_COOK_GRUEL, SIGN_COMPERE, SIGN_PICTURE, SIGN_DIARY, SIGN_PUBLICITY, SIGN_SUPPORTER, SIGN_PROTECT_ENV]
+    SHEET_DEFAULT_TITLE = [STATISTICS_NAME, SIGN_SERVICE, SIGN_MANAGER, SIGN_SIGNER, SIGN_COOK_GRUEL, SIGN_COMPERE, SIGN_PICTURE, SIGN_DIARY, SIGN_PUBLICITY, SIGN_SUPPORTER, SIGN_PROTECT_ENV]
 
     def __init__(self, wb):
         self.wb = wb
@@ -146,6 +146,10 @@ class TopSheet:
     def appendTopInfo(self, daily):
         if daily.service:
             self.statisticsTop(Utils.splitName(daily.service), SIGN_SERVICE)
+            # 由于环保不会加到奉粥中, 所以此处统计奉粥时将环保也加入其中
+            self.statisticsTop(Utils.splitName(daily.protectEnv), SIGN_SERVICE)
+        if daily.manager:
+            self.statisticsTop(Utils.splitName(daily.manager), SIGN_MANAGER)
         if daily.signer:
             self.statisticsTop(Utils.splitName(daily.signer), SIGN_SIGNER)
         if daily.cookGruel:
